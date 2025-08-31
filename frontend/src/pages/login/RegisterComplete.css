@@ -1,0 +1,169 @@
+h2{
+    width: 100%;
+}
+
+
+
+.register2-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    width: 30vh;
+    min-width: 350px;
+    height: 600px;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    margin-top: -10%;
+    overflow-y: scroll;
+}
+
+.student-teacher-both-container{
+    display: flex;
+}
+
+.cbx {
+    display: none; /* esconde o checkbox real */
+}
+
+.student-teacher-both-container input[type="checkbox"] {
+    visibility: hidden;
+    display: none;
+}
+
+.student-teacher-both-container .toggle {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 20px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transform: translate3d(0, 0, 0);
+}
+.student-teacher-both-container .toggle:before {
+    content: "";
+    position: relative;
+    top: 3px;
+    left: 3px;
+    width: 34px;
+    height: 14px;
+    display: block;
+    background: #9A9999;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+.student-teacher-both-container .toggle span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(154, 153, 153, 0.5);
+    transition: all 0.2s ease;
+}
+.student-teacher-both-container .toggle span:before {
+    content: "";
+    position: absolute;
+    display: block;
+    margin: -18px;
+    width: 56px;
+    height: 56px;
+    background: rgba(79, 46, 220, 0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 1;
+    pointer-events: none;
+}
+
+.student-teacher-both-container .cbx:checked + .toggle:before {
+    background: #947ADA;
+}
+.student-teacher-both-container .cbx:checked + .toggle span {
+    background: #4F2EDC;
+    transform: translateX(20px);
+    transition: all 0.2s cubic-bezier(0.8, 0.4, 0.3, 1.25), background 0.15s ease;
+    box-shadow: 0 3px 8px rgba(79, 46, 220, 0.2);
+}
+.student-teacher-both-container .cbx:checked + .toggle span:before {
+    transform: scale(1);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+
+/*selects*/
+.graduation-dropdown {
+    width: 200px;
+    position: relative;
+    font-family: sans-serif;
+    color: #000;
+  }
+  
+  .graduation-dropdown .selected {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .graduation-dropdown .selected:hover {
+    border-color: #4F2EDC;
+  }
+  
+  .graduation-dropdown .arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .graduation-dropdown .arrow.open {
+    transform: rotate(180deg);
+  }
+  
+  .graduation-dropdown .options {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 3px 8px rgba(79, 46, 220, 0.2);
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .graduation-dropdown .options li {
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .graduation-dropdown .options li:hover {
+    background-color: rgba(79, 46, 220, 0.1);
+  }
+  
+  .graduation-dropdown .options .selected-option {
+    background-color: #4F2EDC;
+    color: white;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  

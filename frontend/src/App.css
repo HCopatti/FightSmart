@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+header{
+position: fixed;
+top: 0;
+left: 0;
+}
+footer{
+position: fixed;
+bottom: 0;
+left: 0;
+}
+
+html, body, #root, .app{
+  min-height: 100vh;
+  width: 100%;
+}
+
+.app {
+  text-align: center;
+  /* padding: 20px;
+  padding-top: 80px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ///////////////////// new dark/light ////////////////// */
+
+:root {
+  --bg-color: #f0f0f0;
+  --text-color: #333;
+  --primary-color: #3498db;
+  --card-bg: #fff;
+}
+
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #f5f5f5;
+  --primary-color: #2980b9;
+  --card-bg: #1e1e1e;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+
+/* .btn-dark-light{
+  position: fixed;
+  right: 0;
+  top: 0;
+} */
+
+img{
+    width: 100%;
+}
+
+
+/* ////////////////////// end new dark/light ///////////////// */
+
+
+
+
+/* ///////////////////// old dark/light //////////////////
+
+.light {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.dark {
+  background-color: #121212;
+  color: white;
+}
+
+.dark button {
+  background-color: #333;
+}
+
+.dark button:hover {
+  background-color: #555;
+}
+///////////////////// end old dark/light ////////////////// */
+
+
+
+.reset-button {
+  margin-top: 20px;
+  background-color: #c0392b;
+}
+
+.reset-button:hover {
+  background-color: #e74c3c;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+
+input {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

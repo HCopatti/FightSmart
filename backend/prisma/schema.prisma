@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String
+  email    String  @unique
+  password String
+  birthDate  DateTime
+  graduationBelt String
+  degree String
+  student  StudentProfile?
+  teacher  TeacherProfile?
+  photo      String?
+}
+
+model StudentProfile {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int       @unique
+  classes    Class[]   @relation("StudentClasses") // aulas em que o aluno está inscrito
+}
+
+model TeacherProfile {
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     Int       @unique
+  academy    Academy?
+  classes    Class[]   // aulas que o professor ministra
+}
+
+model Academy {
+  id       Int             @id @default(autoincrement())
+  name     String
+  address  String?
+  teacher  TeacherProfile  @relation(fields: [teacherId], references: [id])
+  teacherId Int            @unique
+  classes  Class[]
+}
+
+model Class {
+  id           Int       @id @default(autoincrement())
+  name         String    // exemplo: "Adulto" ou "Kids"
+  dayOfWeek    Int       // 1 = segunda, 2 = terça ... 5 = sexta
+  startTime    String    // ex: "09:30"
+  endTime      String?   // opcional
+  brief        String?   // descrição do treino
+  teacher      TeacherProfile @relation(fields: [teacherId], references: [id])
+  teacherId    Int
+  academy      Academy   @relation(fields: [academyId], references: [id])
+  academyId    Int
+  students     StudentProfile[] @relation("StudentClasses")
+}

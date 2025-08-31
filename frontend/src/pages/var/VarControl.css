@@ -1,0 +1,32 @@
+.var-container {
+  margin: 10px 0;
+  padding: 10px;
+  border: 2px solid yellow;
+  border-radius: 5px;
+  background-color: #fffbe6;
+}
+
+.var-alerta {
+  color: red;
+  font-weight: bold;
+  animation: piscar-var 1s infinite alternate;
+  margin-top: 5px;
+}
+
+@keyframes piscar-var {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.var-container{
+  position: relative;
+  width: 10%;
+  margin: 3% auto 0;
+}
+
+.var-gif-container{
+  position: absolute;
+  max-width: 100%;
+  width: 20vh;
+}

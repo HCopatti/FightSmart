@@ -1,0 +1,146 @@
+.placar-page {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+}
+
+
+
+/* /////////////////////// PLACAR /////////////////// */
+
+.atletas-wrapper{
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.atleta-card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  padding: 2% 1%;
+  width: 45%;
+  min-height: 48vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.atleta-card h3 {
+  margin-bottom: 10px;
+}
+
+.atleta-card p {
+  margin: 5px 0;
+}
+
+.atleta-card button {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3498db;
+  color: white !important;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.atleta-card button:hover {
+  background-color: #2980b9;
+}
+
+.btn-edit{
+  position: absolute;
+  right: -10%;
+}
+
+.placar-container{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  width: 100%;
+  height: 100%;  
+  margin: 10px;
+}
+
+.placar-item {
+  background-color: #dfe6e9;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.placar-item.pontos {
+  background-color: #27ae60; /* Verde para pontos */
+  color: white;
+}
+
+.placar-item.vantagens {
+  background-color: #f39c12; /* Laranja para vantagens */
+  color: white;
+}
+
+.placar-item.punicoes {
+  background-color: #c0392b; /* Vermelho para punições */
+  color: white;
+}
+.placar-item h4 {
+  font-size: clamp(1.5rem, 7.5vw, 8rem);
+  margin: 0;
+}
+
+.placar-item p {
+  margin: 5px 0 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.botoes-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.adicionar, .remover{
+  position: relative;
+  width: 100%;
+}
+
+.placar-item .botoes-pontos-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.placar-item .botoes-container button, .placar-item .botoes-pontos-container .botoes-container .adicionar button{
+  max-width: 40%;
+  margin: 0;
+  width: 17%;
+  padding: 4% 0;
+  margin-top: 6%;
+}
+.nome-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  /* height: 100%;   */
+  margin: 10px;
+}
+
+.nome-container h3{
+  font-size: 2.17em;
+  margin: 0;
+}
+
+
+/* ///////////////////////////////////////// */

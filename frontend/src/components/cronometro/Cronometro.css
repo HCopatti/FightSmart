@@ -1,0 +1,92 @@
+.cronometro-container {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.cronometro-tempo-container{
+  position: relative;
+  max-width: 33%;
+  width: 58vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cronometro-container h2 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.cronometro-container select {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  max-width: 33%;
+  width: 27vh;
+}
+
+.cronometro-container button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cronometro-container button:nth-child(3) {
+  background-color: #27ae60; /* Verde - Start/Pause */
+  color: white;
+}
+
+.cronometro-container button:nth-child(4) {
+  background-color: #c0392b; /* Vermelho - Reset */
+  color: white;
+}
+
+.cronometro-container button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 500px) {
+  .cronometro-container h2 {
+    font-size: 2.5rem;
+  }
+  
+  .cronometro-container button {
+    padding: 8px 16px;
+  }
+}
+
+.alerta-final {
+  animation: tremer 0.5s infinite alternate;
+  color: red;
+}
+
+@keyframes tremer {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(5px); }
+}
+.warning-time {
+  animation: piscar 0.7s infinite;
+  color: rgb(255, 0, 0);
+}
+
+@keyframes piscar {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
