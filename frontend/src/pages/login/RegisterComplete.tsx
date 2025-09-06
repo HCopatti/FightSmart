@@ -42,7 +42,7 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
     const navigate = useNavigate();
     const location = useLocation();
     
-  const { username, email, password } = location.state || {};
+    const { username, email, password } = location.state || {};
     
     // export default function Registro2() {
     const [isStudent, setIsStudent] = useState(false);
@@ -51,18 +51,19 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
     const [open, setOpen] = useState(false); // controla se o dropdown está aberto
     
     // Campos User
-    // const [birthDate, setBirthDate] = useState({ day: "1", month: "01", year: "2000" });
+    const [birthDate, setBirthDate] = useState({ day: "1", month: "01", year: "2000" });
     
     const [day, setDay] = React.useState("01");
     const [month, setMonth] = React.useState("01");
     const [year, setYear] = React.useState(String(currentYear));
     
     useEffect(() => {
+        setBirthDate({ day, month, year });
         console.log(`Data selecionada: ${day}/${month}/${year}`);
     }, [day, month, year]);
     
     const [graduationBelt, setGraduationBelt] = useState("");
-    const [degree, setDegree] = useState<number | null>(null);
+    const [degree, setDegree] = useState<number | null>(0);
     const [openDegree, setOpenDegree] = useState(false);
     const [phone, setPhone] = useState("");
     const [photo, setPhoto] = useState<File | null>(null);
@@ -98,7 +99,7 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
     //       if (data.error) {
     //         alert(data.error);
     //       } else {
-    //         alert(data.message);
+        //         alert(data.message);
     //         setNome(usernameRegister);
     //         window.location.href = '/placar'; // navega para placar
     //       }
@@ -139,28 +140,30 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
+        // Prepara o objeto a ser enviado
+        const dataToSend = {
+            username,
+            email,
+            password,
+            isStudent,
+            isTeacher,
+            birthDate, // O objeto de estado com day, month, year
+            graduationBelt, 
+            degree, 
+            phone, 
+            // photo, // Remoção da imagem, pois requer um upload de arquivo mais complexo
+            // studentProfile: isStudent ? {} : null, // Removido, será criado no backend
+            // teacherProfile: isTeacher ? { academyName } : null, // Removido, será criado no backend
+            academyName: isTeacher ? academyName : undefined,
+        };
+        
+        console.log("Dados sendo enviados:", dataToSend); // Adicione esta linha!
+        
         try {
             const response = await fetch('http://localhost:5000/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    username,
-                    email,
-                    password,
-                    isStudent,
-                    isTeacher,
-                    // birthDate,
-                    graduationBelt, 
-                    degree, 
-                    phone, 
-                    photo,
-                    studentProfile: isStudent
-                    ? {  }
-                    : null,
-                    teacherProfile: isTeacher
-                    ? { academyName }
-                    : null,
-                })
+                body: JSON.stringify(dataToSend)
             });
             
             // console.log("Dados para enviar ao backend:", data);
@@ -174,7 +177,7 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
                 alert(data.error);
             } else {
                 alert(data.message);
-                navigate('/placar'); // navega sem recarregar a página
+                navigate('/mainPage'); // navega sem recarregar a página
             }
         } catch (err) {
             console.error("ERRO NO FETCH:", err);
@@ -309,7 +312,7 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
                             onClick={() => {
                                 setGraduationBelt(belt);
                                 setOpen(false);
-                                setDegree(null); // reseta grau ao mudar faixa
+                                setDegree(0); // reseta grau ao mudar faixa
                             }}
                             className={graduationBelt === belt ? "selected-option" : ""}
                             >
@@ -322,15 +325,15 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
                     {/* Dropdown dos graus */}
                     {graduationBelt && (
                         <div className="selected" onClick={() => setOpenDegree(!openDegree)}>
-                        {degree || "Grau"}
+                        {degree || "Quantidade de Graus"}
                         <span className={`arrow ${openDegree ? "open" : ""}`}>▼</span>
                         </div>
                     )}
                     {openDegree && (
                         <ul className="options">
                         {Array.from(
-                            { length: beltDegrees[graduationBelt] ?? 0 },
-                            (_, i) => i + 1
+                            { length: (beltDegrees[graduationBelt] ?? 0) + 1 },
+                            (_, i) => i 
                         ).map((num) => (
                             <li
                             key={num}

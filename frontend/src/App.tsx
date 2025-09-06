@@ -11,11 +11,10 @@ import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import Navbar from './components/navbar/Navbar';
 
 import Login from './pages/login/Login';
 import RegisterComplete from './pages/login/RegisterComplete';
-// import MainPage from './pages/mainPage/MainPage';
+import MainPage from './pages/mainPage/MainPage';
 import Placar from './pages/PlacarF/Placar';
 
 import './App.css'
@@ -61,7 +60,7 @@ function App() {
     <div className="app">
     
     <Routes>
-    <Route path="/" element={<Login nome={nome} setNome={setNome} darkMode={darkMode} setDarkMode={setDarkMode} />} />
+    <Route path="/" element={<Login nome={nome} setNome={setNome} />} />
 
     <Route path="/registerComplete" 
     element={
@@ -70,18 +69,32 @@ function App() {
       </>
     } />
 
-    <Route path="/placar"
+    
+
+    <Route path="/mainPage"
     element={
       <>
       
-      <Navbar nome={nome} setNome={setNome} darkMode={darkMode} setDarkMode={setDarkMode} />
-      <Header nome={nome} setNome={setNome} />
+      <Header nome={nome} setNome={setNome} darkMode={darkMode} setDarkMode={setDarkMode} />
+      <MainPage />
+      <Footer />
+      <button onClick={limparLocalStorage}>Resetar valores</button>
+      </>
+    }
+    />
+
+    <Route path="/placar"
+    element={
+      <>
+
+      <Header nome={nome} setNome={setNome} darkMode={darkMode} setDarkMode={setDarkMode} />
       <Placar />
       <Footer />
       <button onClick={limparLocalStorage}>Resetar valores</button>
       </>
     }
     />
+
     </Routes>
     
     

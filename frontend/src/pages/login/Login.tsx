@@ -3,16 +3,13 @@ import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css'; 
 
-import Navbar from '../../components/navbar/Navbar';
 
 interface LoginProps {
   nome: string;
   setNome: (nome: string) => void;
-  darkMode: boolean;
-  setDarkMode: (darkMode: boolean) => void;
 }
 
-function Login({ nome, setNome, darkMode, setDarkMode }: LoginProps) {
+function Login({ setNome }: LoginProps) {
   
   
   const navigate = useNavigate();
@@ -53,7 +50,7 @@ const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email: emailLogin,
-      senha: senhaLogin
+      password: senhaLogin
     })
   })
   .then(res => res.json())
@@ -63,7 +60,8 @@ const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     } else {
       alert(data.message);
       setNome(data.user.username);
-      window.location.href = '/placar'; //navega para placar
+      // window.location.href = '/placar'; //navega para placar
+    navigate('/mainPage'); // navega sem recarregar a página
     }
   });
 };
@@ -98,7 +96,6 @@ window.addEventListener('load', () => {
 
 return (
   <>
-  <Navbar nome={nome} setNome={setNome} darkMode={darkMode} setDarkMode={setDarkMode} />
   
   <div className="register-wrapper">
   <div className="texts-login-container">

@@ -34,7 +34,7 @@ function Placar() {
     const [punicaoA, setPunicaoA] = useState(0);
     const [punicaoB, setPunicaoB] = useState(0);
     
-    const adicionarPontoA = (valor) => {
+    const adicionarPontoA = (valor: number) => {
         setPontosA(pontosA + valor);
     };
     // const adicionarPonto = (valor, atleta, origem) => {
@@ -43,57 +43,57 @@ function Placar() {
     //     registrarEvento(eventos, setEventos, 'ponto', valor, atleta, origem);
     // };
     
-    const removerPontoA = (valor) => {
+    const removerPontoA = (valor: number) => {
         if (pontosA - valor >= 0){
             setPontosA(pontosA - valor);
         }
     };
     
-    const adicionarPontoB = (valor) => {
+    const adicionarPontoB = (valor: number) => {
         setPontosB(pontosB + valor);
     };
     
-    const removerPontoB = (valor) => {
+    const removerPontoB = (valor: number) => {
         if (pontosB - valor >= 0){
             setPontosB(pontosB - valor);
         }
     };
     
-    const adicionarVantagemA = (valor) => {
+    const adicionarVantagemA = (valor: number) => {
         setVantagemA(vantagemA + valor);
     };
     
-    const removerVantagemA = (valor) => {
+    const removerVantagemA = (valor: number) => {
         if (vantagemA - valor >= 0){
             setVantagemA(vantagemA - valor);
         }
     };
     
-    const adicionarVantagemB = (valor) => {
+    const adicionarVantagemB = (valor: number) => {
         setVantagemB(vantagemB + valor);
     };
     
-    const removerVantagemB = (valor) => {
+    const removerVantagemB = (valor: number) => {
         if (vantagemB - valor >= 0){
             setVantagemB(vantagemB - valor);
         }
     };
     
-    const adicionarPunicaoA = (valor) => {
+    const adicionarPunicaoA = (valor: number) => {
         setPunicaoA(punicaoA + valor);
     };
     
-    const removerPunicaoA = (valor) => {
+    const removerPunicaoA = (valor: number) => {
         if (punicaoA - valor >= 0){
             setPunicaoA(punicaoA - valor);
         }
     };
     
-    const adicionarPunicaoB = (valor) => {
+    const adicionarPunicaoB = (valor: number) => {
         setPunicaoB(punicaoB + valor);
     };
     
-    const removerPunicaoB = (valor) => {
+    const removerPunicaoB = (valor: number) => {
         if (punicaoB - valor >= 0){
             setPunicaoB(punicaoB - valor);
         }

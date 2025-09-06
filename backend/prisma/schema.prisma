@@ -14,52 +14,56 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  username String
-  email    String  @unique
-  password String
-  birthDate  DateTime
-  graduationBelt String
-  degree String
-  student  StudentProfile?
-  teacher  TeacherProfile?
-  photo      String?
+  id              Int             @id @default(autoincrement())
+  username        String
+  email           String          @unique
+  password        String
+  birthDate       DateTime
+  graduationBelt  String?
+  degree          Int? 
+  phone           String?
+  photo           String?
+  // isStudent       Boolean // Opcional, a existência do perfil já indica o tipo
+  // isTeacher       Boolean // Opcional, a existência do perfil já indica o tipo
+  student         StudentProfile?
+  teacher         TeacherProfile?
 }
 
 model StudentProfile {
-  id         Int       @id @default(autoincrement())
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int       @unique
-  classes    Class[]   @relation("StudentClasses") // aulas em que o aluno está inscrito
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int       @unique
+  classes   Class[]   @relation("StudentClasses")
 }
 
 model TeacherProfile {
-  id         Int       @id @default(autoincrement())
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int       @unique
-  academy    Academy?
-  classes    Class[]   // aulas que o professor ministra
+  id          Int     @id @default(autoincrement())
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int     @unique
+  academy     Academy @relation(fields: [academyId], references: [id]) // Relacionamento com a academia
+  academyId   Int
+  classes     Class[]   // aulas que o professor ministra
 }
 
 model Academy {
-  id       Int             @id @default(autoincrement())
-  name     String
-  address  String?
-  teacher  TeacherProfile  @relation(fields: [teacherId], references: [id])
-  teacherId Int            @unique
-  classes  Class[]
+  id        Int             @id @default(autoincrement())
+  name      String          @unique // O nome da academia deve ser único para o "upsert" funcionar
+  address   String?
+  teachers  TeacherProfile[] // Uma academia pode ter vários professores
+  classes   Class[]
 }
 
 model Class {
-  id           Int       @id @default(autoincrement())
-  name         String    // exemplo: "Adulto" ou "Kids"
-  dayOfWeek    Int       // 1 = segunda, 2 = terça ... 5 = sexta
-  startTime    String    // ex: "09:30"
-  endTime      String?   // opcional
-  brief        String?   // descrição do treino
-  teacher      TeacherProfile @relation(fields: [teacherId], references: [id])
-  teacherId    Int
-  academy      Academy   @relation(fields: [academyId], references: [id])
-  academyId    Int
-  students     StudentProfile[] @relation("StudentClasses")
+  id          Int             @id @default(autoincrement())
+  name        String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String?
+  brief       String?
+  teacher     TeacherProfile  @relation(fields: [teacherId], references: [id])
+  teacherId   Int
+  academy     Academy         @relation(fields: [academyId], references: [id])
+  academyId   Int
+  students    StudentProfile[] @relation("StudentClasses")
+  date          DateTime
 }
