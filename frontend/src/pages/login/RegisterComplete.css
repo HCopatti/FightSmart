@@ -5,21 +5,24 @@ h2{
 
 
 .register2-wrapper{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     max-width: 100%;
-    width: 30vh;
+    /* width: 70vh; */
+    width: 100%;
     min-width: 350px;
-    height: 600px;
     padding: 20px;
-    background-color: #000;
     color: #fff;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    margin-top: -10%;
+    /* margin-top: -10%; */
     overflow-y: scroll;
 }
 
@@ -101,7 +104,6 @@ h2{
 
 /*selects*/
 .graduation-dropdown {
-    width: 200px;
     position: relative;
     font-family: sans-serif;
     color: #000;
@@ -161,6 +163,27 @@ h2{
     background-color: #4F2EDC;
     color: white;
   }
+
+.input-box {
+  position: relative;
+}
+
+.input-box .char {
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+}
+
+.input-box .input:focus{
+  outline: none;
+}
+
+.input-box .input:focus + label .char,
+.input-box .label-up .char {
+  transform: translateY(-35px);
+  font-size: 18px;
+  color: #3679ff;
+}
   
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-5px); }
