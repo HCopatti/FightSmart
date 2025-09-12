@@ -5,7 +5,7 @@ import { FaMoon, FaSun, FaArrowLeft } from 'react-icons/fa';
 import { GiBlackBelt } from 'react-icons/gi';
 import { PiUserCircleFill, PiUserCircleGearFill } from "react-icons/pi";
 import './RegisterComplete.css'; 
-import { ScrollPicker } from "./ScrollPicker";
+import { ScrollPicker } from "../../components/scrollPicker/ScrollPicker";
 import { IMaskInput } from "react-imask";
 import * as React from "react";
 
@@ -18,9 +18,13 @@ import * as React from "react";
 
 // Arrays de dias, meses e anos
 const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"));
-const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
+const monthNames = [
+    "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", 
+    "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+];
+const months = Array.from({ length: 12 }, (_, i) => monthNames[i]);
 const currentYear = new Date().getFullYear();
-const years = Array.from({ length: 100 }, (_, i) => String(currentYear - i));
+const years = Array.from({ length: 100 }, (_, i) => String((currentYear-4) - i));
 
 
 
@@ -65,186 +69,200 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
         setCurrentDateBirth(String(`Data selecionada: ${day}/${month}/${year}`));
     }, [day, month, year]);
     
-    useEffect(() => {
-        console.log(`Data selecionada: ${day}/${month}/${year}`);
-    }, [day, month, year]);
+    const actualYear = new Date().getFullYear();
+    const age = actualYear - Number(year);
     
-    const [graduationBelt, setGraduationBelt] = useState("");
-    const [degree, setDegree] = useState<number | null>(0);
-    const [openDegree, setOpenDegree] = useState(false);
-    const [phone, setPhone] = useState("");
-    const [photo, setPhoto] = useState<File | null>(null);
-    
-    // const belts = ["Branca", "Cinza", "Amarela", "Laranja", "Verde", "Azul", "Roxa", "Marrom", "Preta"];
-    // const degrees = [0, 1, 2, 3, 4, 5, 6];
-    
-    // Campos Aluno
-    //   const [photoStudent, setPhotoStudent] = useState(null);
-    
-    // Campos Professor
-    const [academyName, setAcademyName] = useState("");
-    //   const [phoneTeacher, setPhoneTeacher] = useState("");
-    
-    
-    //   const handleRegister = async (e) => {
-    //     e.preventDefault(); // evita que o form recarregue a página
-    
-    //     try {
-    //       const response = await fetch('http://localhost:5000/register', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //           username: usernameRegister,
-    //           email: emailRegister,
-    //           password: senhaRegister
-    //         })
-    //       });
-    
-    //       const data = await response.json();
-    //       console.log("RESPOSTA DO BACKEND:", data); // log do backend
-    
-    //       if (data.error) {
-    //         alert(data.error);
-    //       } else {
-        //         alert(data.message);
-    //         setNome(usernameRegister);
-    //         window.location.href = '/placar'; // navega para placar
-    //       }
-    //     } catch (err) {
-    //       console.error("ERRO NO FETCH:", err);
-    //       alert("Erro ao conectar com o backend");
-    //     }
-    //   };
-    
-    
-    
-    // Mapeamento de graus por faixa
-    const beltDegrees: Record<string, number> = {
-        Branca: 4,
-        "Cinza e Branco": 4,
-        Cinza: 4,
-        "Cinza e Preto": 4,
-        "Amarelo e Branco": 4,
-        Amarelo: 4,
-        "Amarelo e Preto": 4,
-        "Laranja e Branco": 4,
-        Laranja: 4,
-        "Laranja e Preto": 4,
-        "Verde e Branco": 4,
-        Verde: 4,
-        "Verde e Preto": 4,
-        Azul: 4,
-        Roxa: 4,
-        Marrom: 4,
-        Preta: 6,
-        "Vermelho e Preto": 7,
-        "Vermelho e Branco": 8,
-        Vermelho: 9,
-    };
-    
-    
-    
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    var belts = ["Branca",
+        "Cinza e Branco", "Cinza", "Cinza e Preto",
+        "Amarela e Branco", "Amarela", "Amarela e Preto", 
+        "Laranja e Branco", "Laranja", "Laranja e Preto", 
+        "Verde e Branco", "Verde", "Verde e Preto", 
+        "Azul", "Roxa", "Marrom", "Preta",
+        "Vermelho e Preto", "Vermelho e Branco", "Vermelha"];
         
-        // Prepara o objeto a ser enviado
-        const dataToSend = {
-            username,
-            email,
-            password,
-            isStudent,
-            isTeacher,
-            birthDate, // O objeto de estado com day, month, year
-            graduationBelt, 
-            degree, 
-            phone, 
-            // photo, // Remoção da imagem, pois requer um upload de arquivo mais complexo
-            // studentProfile: isStudent ? {} : null, // Removido, será criado no backend
-            // teacherProfile: isTeacher ? { academyName } : null, // Removido, será criado no backend
-            academyName: isTeacher ? academyName : undefined,
+        // 1. Crie uma cópia completa do array original
+        const beltsCopia = [...belts];
+        const [beltsFiltrados, setBeltsFiltrados] = useState(belts);
+        
+        useEffect(() => {
+            if (age > 4 && age < 7) {
+                beltsCopia.splice(4, beltsCopia.length - 4); // mantém só as 3 primeiras
+            }
+            else if (age >= 7 && age < 10) {
+                beltsCopia.splice(7, beltsCopia.length - 7); 
+            }
+            else if (age >= 10 && age < 13) {
+                beltsCopia.splice(10, beltsCopia.length - 10);
+            }
+            else if (age >= 13 && age < 16) {
+                beltsCopia.splice(13, beltsCopia.length - 13);
+            }
+            else if (age >= 16 && age < 18) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+                beltsCopia.splice(2 + 1); //remove de Azul em diante
+            }
+            else if (age === 18) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+                beltsCopia.splice(4);
+            }
+            else if (age > 18 && age < 51) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+                beltsCopia.splice(5);
+            }
+            else if (age >= 51 && age < 57) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+                beltsCopia.splice(6);
+            }
+            else if (age >= 57 && age < 67) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+                beltsCopia.splice(7);
+            }
+            else if (age >= 67) {
+                beltsCopia.splice(1, 12); // remove de Cinza até Verde e Preto
+            }
+            else{
+                beltsCopia.splice(1); // nenhuma faixa
+            }
+            // belts = beltsCopia;
+            setBeltsFiltrados(beltsCopia);
+        }, [age]);
+        
+        
+        const degrees = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const degreesCopy = [...degrees];
+        const degreesString = degrees.map(String);
+        
+        const [graduationBelt, setGraduationBelt] = useState("");
+        const [degree, setDegree] = useState("");
+
+        useEffect(() => {
+            if (graduationBelt === "Preta") {
+                degreesCopy.splice(6, degrees.length - 6); 
+            }
+        }, [graduationBelt]);
+
+        const [phone, setPhone] = useState("");
+        const [photo, setPhoto] = useState<File | null>(null);
+        
+        // Mapeamento de graus por faixa
+        
+        // Campos Aluno
+        //   const [photoStudent, setPhotoStudent] = useState(null);
+        
+        // Campos Professor
+        const [academyName, setAcademyName] = useState("");
+        //   const [phoneTeacher, setPhoneTeacher] = useState("");
+        
+        
+        //   const handleRegister = async (e) => {
+        //     e.preventDefault(); // evita que o form recarregue a página
+        
+        //     try {
+        //       const response = await fetch('http://localhost:5000/register', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({
+        //           username: usernameRegister,
+        //           email: emailRegister,
+        //           password: senhaRegister
+        //         })
+        //       });
+        
+        //       const data = await response.json();
+        //       console.log("RESPOSTA DO BACKEND:", data); // log do backend
+        
+        //       if (data.error) {
+        //         alert(data.error);
+        //       } else {
+            //         alert(data.message);
+        //         setNome(usernameRegister);
+        //         window.location.href = '/placar'; // navega para placar
+        //       }
+        //     } catch (err) {
+        //       console.error("ERRO NO FETCH:", err);
+        //       alert("Erro ao conectar com o backend");
+        //     }
+        //   };
+        
+        
+        
+        
+        
+        const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            
+            // Prepara o objeto a ser enviado
+            const dataToSend = {
+                username,
+                email,
+                password,
+                isStudent,
+                isTeacher,
+                birthDate, // O objeto de estado com day, month, year
+                graduationBelt, 
+                degree, 
+                phone, 
+                // photo, // Remoção da imagem, pois requer um upload de arquivo mais complexo
+                // studentProfile: isStudent ? {} : null, // Removido, será criado no backend
+                // teacherProfile: isTeacher ? { academyName } : null, // Removido, será criado no backend
+                academyName: isTeacher ? academyName : undefined,
+            };
+            
+            console.log("Dados sendo enviados:", dataToSend); // Adicione esta linha!
+            
+            try {
+                const response = await fetch('http://localhost:5000/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataToSend)
+                });
+                
+                // console.log("Dados para enviar ao backend:", data);
+                // Aqui você faria o fetch/post para salvar no banco
+                
+                //////
+                
+                const data = await response.json();
+                console.log("RESPOSTA DO BACKEND:", data); // log do backend
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.message);
+                    navigate('/mainPage'); // navega sem recarregar a página
+                }
+            } catch (err) {
+                console.error("ERRO NO FETCH:", err);
+                alert("Erro ao conectar com o backend");
+            }
         };
         
-        console.log("Dados sendo enviados:", dataToSend); // Adicione esta linha!
-        
-        try {
-            const response = await fetch('http://localhost:5000/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataToSend)
-            });
+        return (
+            <div className="register2-wrapper bg-gradient-to-tl from-yellow-300 to-sky-400 flex flex-col items-center justify-center h-screen">
             
-            // console.log("Dados para enviar ao backend:", data);
-            // Aqui você faria o fetch/post para salvar no banco
             
-            //////
-            
-            const data = await response.json();
-            console.log("RESPOSTA DO BACKEND:", data); // log do backend
-            if (data.error) {
-                alert(data.error);
-            } else {
-                alert(data.message);
-                navigate('/mainPage'); // navega sem recarregar a página
+            {/* <button  className="btn-dark-light" onClick={toggleTheme}>
+                {darkMode ? <FaSun /> : <FaMoon />}
+                </button> */
             }
-        } catch (err) {
-            console.error("ERRO NO FETCH:", err);
-            alert("Erro ao conectar com o backend");
-        }
-    };
-    
-    return (
-        <div className="register2-wrapper bg-gradient-to-tl from-yellow-300 to-sky-400 flex flex-col items-center justify-center h-screen">
-        
-        
-        {/* <button  className="btn-dark-light" onClick={toggleTheme}>
-            {darkMode ? <FaSun /> : <FaMoon />}
-            </button> */
-        }
-        
-        {!isStudent && !isTeacher && (
-            <div
+            
+            {!isStudent && !isTeacher && (
+                <div
                 style={{animation: 'fadeIn 0.5s ease-in-out'}}>
-            <button onClick={() => {
-                navigate('/');
+                <button onClick={() => {
+                    navigate('/');
+                }}>
+                { <FaArrowLeft />}
+                </button>
+                <h2 className="title text-4xl">Olá <span className="text-5xl font-bold uppercase" >{nome}</span>. Escolha seu perfil</h2>  
+                </div>    
+            )}
+            
+            <div className="forms-container overflow-auto" style={{height: 'auto',
+                scrollbarWidth: 'none', // Firefox
+                msOverflowStyle: 'none', // IE 10+
             }}>
-            { <FaArrowLeft />}
-            </button>
-            <h2 className="title text-4xl">Olá <span className="text-5xl font-bold uppercase" >{nome}</span>. Escolha seu perfil</h2>  
-            </div>    
-        )}
-        
-        <div className="forms-container " style={{height: 'auto'}}>
-        <form onSubmit={handleSubmit}>
-        {/* <h2 className="title text-4xl">Olá <span className="text-5xl font-bold uppercase" >{nome}</span>. Escolha seu perfil</h2>          */}
-        
-        {/* <div className="student-teacher-both-container">            
-            <label>
-            <input
-            type="checkbox"
-            className="cbx"
-            checked={isStudent && !isTeacher}
-            onChange={(e) => setIsStudent(e.target.checked)}
-            />
-            <div className="toggle">
-            <span></span>
-            </div>
-            Aluno
-            </label>
+            <form onSubmit={handleSubmit}>
             
-            <label>
-            <input
-            type="checkbox"
-            className="cbx"
-            checked={isTeacher && !isStudent}
-            onChange={(e) => setIsTeacher(e.target.checked)}
-            />
-            <div className="toggle">
-            <span></span>
-            </div>
-            Professor
-            </label>
-            
-            </div> */}
             
             {(!isStudent && !isTeacher) && (
                 <div className="flex flex-col space-x-4 justify-center items-center"
@@ -294,6 +312,21 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
                 <span className="text-3xl font-medium text-gray-700 ">
                 {isStudent && !isTeacher && "Concluir cadastro de Aluno"}
                 {isTeacher && !isStudent && "Concluir cadastro de Professor"}
+                </span>
+                </div>
+                <div className="flex justify-center items-center mt-10">
+                <span className="text-3xl font-medium text-gray-700 ">
+                teste{`${belts}`}
+                </span>
+                </div>
+                <div className="flex justify-center items-center mt-10">
+                <span className="text-3xl font-medium text-gray-700 ">
+                teste2{`${degreesCopy}`}
+                </span>
+                </div>
+                <div className="flex justify-center items-center mt-10">
+                <span className="text-3xl font-medium text-gray-700 ">
+                age: {`${age}`}
                 </span>
                 </div>
                 <div className="flex justify-center items-center mt-10">
@@ -391,189 +424,122 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
                             </label>
                             </div>
                             
+                            <div className="flex space-x-4 justify-center items-center">
+                            <div className="relative w-48 h-48 overflow-hidden
+                                    [mask-image:linear-gradient(to_bottom,transparent_0%,black_40%,black_80%,transparent_100%)]
+                                    [mask-repeat:no-repeat]
+                                    [mask-size:100%_100%]
+                                    [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_40%,black_80%,transparent_100%)]
+                                    [-webkit-mask-repeat:no-repeat]
+                                    [-webkit-mask-size:100%_100%]">
+                            <ScrollPicker values={beltsFiltrados} value={graduationBelt} onChange={(value) => setGraduationBelt(value)} />
+                            </div>
                             
-                            {/* <h3>Informações</h3><Autocomplete
-                                options={belts}
-                                value={graduationBelt}
-                                onChange={(event, newValue) => setGraduationBelt(newValue)}
-                                renderInput={(params) => <TextField {...params} label="Faixa" />}
-                                />
-                                
-                                <Autocomplete
-                                options={degrees}
-                                value={graduationDegree}
-                                onChange={(event, newValue) => setGraduationDegree(newValue)}
-                                renderInput={(params) => <TextField {...params} label="Grau" />}
-                                /> */}
-                                
-                                <div className="graduation-dropdown flex justify-between mt-10">
-                                <div className="selected" onClick={() => setOpen(!open)}>
-                                {graduationBelt || "Graduação"}
-                                <span className={`arrow ${open ? "open" : ""}`}>▼</span>
-                                </div>
-                                {open && (
-                                    <ul className="options">
-                                    {["Branca", "Azul", "Roxa", "Marrom", "Preta"].map((belt) => (
-                                        <li
-                                        key={belt}
-                                        onClick={() => {
-                                            setGraduationBelt(belt);
-                                            setOpen(false);
-                                            setDegree(0); // reseta grau ao mudar faixa
-                                        }}
-                                        className={graduationBelt === belt ? "selected-option" : ""}
-                                        >
-                                        {belt}
-                                        </li>
-                                    ))}
-                                    </ul>
-                                )}
-                                
-                                {/* Dropdown dos graus */}
-                                {graduationBelt && (
-                                    <div className="selected" onClick={() => setOpenDegree(!openDegree)}>
-                                    {degree || "Quantidade de Graus"}
-                                    <span className={`arrow ${openDegree ? "open" : ""}`}>▼</span>
-                                    </div>
-                                )}
-                                {openDegree && (
-                                    <ul className="options">
-                                    {Array.from(
-                                        { length: (beltDegrees[graduationBelt] ?? 0) + 1 },
-                                        (_, i) => i 
-                                    ).map((num) => (
-                                        <li
-                                        key={num}
-                                        onClick={() => {
-                                            setDegree(num);
-                                            setOpenDegree(false);
-                                        }}
-                                        className={degree === num ? "selected-option" : ""}
-                                        >
-                                        {num}º Grau
-                                        </li>
-                                    ))}
-                                    </ul>
-                                )}
-                                </div>
+                            <div className="relative w-48 h-48 overflow-hidden
+                                    [mask-image:linear-gradient(to_bottom,transparent_0%,black_40%,black_80%,transparent_100%)]
+                                    [mask-repeat:no-repeat]
+                                    [mask-size:100%_100%]
+                                    [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,black_40%,black_80%,transparent_100%)]
+                                    [-webkit-mask-repeat:no-repeat]
+                                    [-webkit-mask-size:100%_100%]">
+                            <ScrollPicker values={degreesString} value={degree} onChange={(value) => setDegree(value)} />
+                            </div>
+                            </div>
+                            
                                 
                                 
                                 
-                                {/* <input
-                                    type="text"
-                                    value={graduationDegree}
-                                    onChange={(e) => setGraduationDegree(e.target.value)}
-                                    placeholder="0 graus (padrão = 0)"
-                                    />
+                                {/* Multimos arquivos:
                                     
-                                    <select
-                                    value={graduationDegree}
-                                    onChange={(e) => setDegree(e.target.value)}
-                                    disabled={!graduationBelt} // só habilita se a faixa for escolhida
-                                    >
-                                    <option value="" disabled>
-                                    Grau
-                                    </option>
-                                    {degreeOptions.map((num) => (
-                                    <option key={num} value={num}>
-                                    {num}º Grau
-                                    </option>
-                                    ))}
-                                    </select> */}
+                                    type="file"
+                                    multiple
+                                    onChange={(e) => {
+                                    if (e.target.files) {
+                                    setPhoto(Array.from(e.target.files));
+                                    }
+                                    }} */}
                                     
-                                    
-                                    
-                                    {/* Multimos arquivos:
-                                        
-                                        type="file"
-                                        multiple
-                                        onChange={(e) => {
-                                        if (e.target.files) {
-                                        setPhoto(Array.from(e.target.files));
+                                    <input
+                                    type="file"
+                                    onChange={(e) => {
+                                        if (e.target.files && e.target.files.length > 0) {
+                                            setPhoto(e.target.files[0]);
                                         }
-                                        }} */}
-                                        
-                                        <input
-                                        type="file"
-                                        onChange={(e) => {
-                                            if (e.target.files && e.target.files.length > 0) {
-                                                setPhoto(e.target.files[0]);
-                                            }
+                                    }}
+                                    />
+                                    {photo && (
+                                        <div style={{ marginTop: "10px" }}>
+                                        <p>Preview:</p>
+                                        <img
+                                        src={URL.createObjectURL(photo)}
+                                        alt="Preview"
+                                        style={{
+                                            maxWidth: "200px",
+                                            borderRadius: "10px",
+                                            border: "1px solid #ccc",
                                         }}
                                         />
-                                        {photo && (
-                                            <div style={{ marginTop: "10px" }}>
-                                            <p>Preview:</p>
-                                            <img
-                                            src={URL.createObjectURL(photo)}
-                                            alt="Preview"
-                                            style={{
-                                                maxWidth: "200px",
-                                                borderRadius: "10px",
-                                                border: "1px solid #ccc",
-                                            }}
-                                            />
+                                        </div>
+                                    )}
+                                    
+                                    
+                                    {/* MOSTRAR MULTIPLAS IMAGENS
+                                        {photos.length > 0 && (
+                                        <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+                                        {photos.map((file, index) => (
+                                        <img
+                                        key={index}
+                                        src={URL.createObjectURL(file)}
+                                        alt={`Preview ${index}`}
+                                        style={{
+                                        maxWidth: "100px",
+                                        borderRadius: "10px",
+                                        border: "1px solid #ccc",
+                                        }}
+                                        />
+                                        ))}
+                                        </div>
+                                        )} */}
+                                        
+                                        
+                                        {/* Campos do Aluno */}
+                                        {isStudent && (
+                                            <div>
                                             </div>
                                         )}
                                         
-                                        
-                                        {/* MOSTRAR MULTIPLAS IMAGENS
-                                            {photos.length > 0 && (
-                                            <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-                                            {photos.map((file, index) => (
-                                            <img
-                                            key={index}
-                                            src={URL.createObjectURL(file)}
-                                            alt={`Preview ${index}`}
-                                            style={{
-                                            maxWidth: "100px",
-                                            borderRadius: "10px",
-                                            border: "1px solid #ccc",
-                                            }}
+                                        {/* Campos do Professor */}
+                                        {isTeacher && (
+                                            <div>
+                                            <h3>Informações do Professor</h3>
+                                            <input
+                                            type="text"
+                                            value={academyName}
+                                            onChange={(e) => setAcademyName(e.target.value)}
+                                            placeholder="Nome da academia"
                                             />
-                                            ))}
-                                            </div>
-                                            )} */}
-                                            
-                                            
-                                            {/* Campos do Aluno */}
-                                            {isStudent && (
-                                                <div>
-                                                </div>
-                                            )}
-                                            
-                                            {/* Campos do Professor */}
-                                            {isTeacher && (
-                                                <div>
-                                                <h3>Informações do Professor</h3>
-                                                <input
-                                                type="text"
-                                                value={academyName}
-                                                onChange={(e) => setAcademyName(e.target.value)}
-                                                placeholder="Nome da academia"
+                                            {/* <input
+                                                type="tel"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                                placeholder="Telefone"
                                                 />
-                                                {/* <input
-                                                    type="tel"
-                                                    value={phone}
-                                                    onChange={(e) => setPhone(e.target.value)}
-                                                    placeholder="Telefone"
-                                                    />
-                                                    <input
-                                                    type="file"
-                                                    onChange={(e) => setPhoto(e.target.files[0])}
-                                                    /> */}
-                                                    </div>
-                                                )}
-                                                
-                                                <button type="submit">Concluir Cadastro</button>
-                                                </div>
+                                                <input
+                                                type="file"
+                                                onChange={(e) => setPhoto(e.target.files[0])}
+                                                /> */}
                                                 </div>
                                             )}
-                                            </form>
+                                            
+                                            <button type="submit">Concluir Cadastro</button>
                                             </div>
                                             </div>
-                                        );
-                                    }
-                                    
-                                    export default RegisterComplete;
-                                    
+                                        )}
+                                        </form>
+                                        </div>
+                                        </div>
+                                    );
+                                }
+                                
+                                export default RegisterComplete;
+                                
