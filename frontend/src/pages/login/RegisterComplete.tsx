@@ -265,32 +265,34 @@ function RegisterComplete({ nome, darkMode, setDarkMode } : RegisterCompleteProp
             
             
             {(!isStudent && !isTeacher) && (
-                <div className="flex flex-col space-x-4 justify-center items-center"
-                style={{animation: 'fadeIn 0.5s ease-in-out'}}>
-                <div className="flex space-x-4 justify-center items-center mt-20">
-                <div className="flex space-x-4 justify-center items-center mt-20 text-blue-800 hover:text-black" onClick={() => { setIsStudent(true); setIsTeacher(false); }}>
+                <div className="flex flex-col space-x-4 
+                justify-center items-center 
+                p-4 animate-fadeIn">
+                <div className="max-w-full w-full flex flex-wrap space-x-4 justify-center items-center mt-20">
+                <div className="max-w-full w-full flex space-x-4 justify-center items-center text-blue-800 hover:text-black" onClick={() => { setIsStudent(true); setIsTeacher(false); }}>
                 {/* Contêiner com gradiente para o efeito de fade */}
                 <div className="relative w-64 h-48">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 "></div>
-                <div className="absolute size-full flex items-center justify-center text-center text-white">
-                { <PiUserCircleFill size={"8rem"} />} 
+                <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                { <PiUserCircleFill className="w-24 h-24 md:w-28 md:h-28" />} 
                 </div>
                 <div className="absolute inset-0 bg-green-300 opacity-0 transition-duration-300 duration-300 hover:opacity-30 z-12 cursor-pointer"></div>
                 <span className="absolute text-4xl font-sans font-bold" style={{top:'0%', left:'50%', transform: 'translate(-50%, -150%)'}}>Aluno</span>
                 </div>
-                </div>
-                
-                <div className="flex space-x-4 justify-center items-center mt-20 text-blue-800 hover:text-black cursor-pointer" onClick={() => { setIsTeacher(true); setIsStudent(false); }}>
-                {/* Contêiner com gradiente para o efeito de fade */}
                 <div className="relative w-64 h-48">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 "></div>
-                <div className="absolute size-full flex items-center justify-center text-center text-white">
-                { <GiBlackBelt size={"8rem"} />}
+                <div className="absolute inset-0 flex items-center justify-center text-center text-white">
+                { <GiBlackBelt className="w-24 h-24 md:w-28 md:h-28" />}
                 </div>
                 <div className="absolute inset-0 bg-green-300 opacity-0 transition-duration-300 duration-300 hover:opacity-30 z-12 cursor-pointer"></div>
                 <span className="absolute text-4xl font-sans font-bold" style={{top:'0%', left:'50%', transform: 'translate(-50%, -150%)'}}>Professor</span>
                 </div>
+
                 </div>
+                
+                {/* <div className="flex space-x-4 justify-center items-center mt-20 text-blue-800 hover:text-black cursor-pointer" onClick={() => { setIsTeacher(true); setIsStudent(false); }}> */}
+                {/* Contêiner com gradiente para o efeito de fade */}
+                {/* </div> */}
                 </div>
                 </div>
             )}

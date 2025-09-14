@@ -116,10 +116,14 @@ function Login({ setNome }: LoginProps) {
     h-screen flex items-center justify-center
     text-black font-medium"
     >
-    <div className="h-auto w-auto max-w-full max-h-full w-1/4 h-1/2 overflow-hidden flex flex-col items-center justify-start 
+    <div className="overflow-y-auto  h-auto w-auto max-w-full max-h-full w-1/4 h-1/2 overflow-hidden flex flex-col items-center justify-start 
  backdrop-brightness-125 bg-opacity-50 backdrop-blur-md backdrop-filter 
     backdrop-blur-sm backdrop-filter-sm backdrop-filter-md backdrop-filter-lg backdrop-filter-2xl 
-    backdrop-filter-3xl text-black font-medium duration-300">
+    backdrop-filter-3xl text-black font-medium duration-300"                    
+      style={{
+        scrollbarWidth: 'none', // Firefox
+        msOverflowStyle: 'none', // IE 10+
+      }}>
     <div className="texts-login-container backdrop-brightness-125 bg-opacity-50 ">
     <h2 className={`register-text ${registerActive ? 'h2-active' : ''}`} onClick={() => setRegisterActive(true)}>Criar Conta</h2>
     <h2 className={`login-text ${!registerActive ? 'h2-active' : ''}`} onClick={() => setRegisterActive(false)}>Entrar</h2>
